@@ -1,1 +1,1 @@
-# glo-2005-projet
+# Guide de cuisine
