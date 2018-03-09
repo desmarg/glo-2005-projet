@@ -36,6 +36,10 @@ npm install
 npm run build
 ```
 
+## Spécifier la base de données à utiliser
+
+Modifiez le fichier `server/config/database.ini` en remplaçant les 4 valeurs sous la section MYSQL par les informations de votre base de données locale.
+
 # Rouler le projet
 
 Déplacez-vous dans le dossier server/:
