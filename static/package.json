@@ -24,13 +24,17 @@
     "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
+    "3.0.0": "^3.0.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.10",
+    "extract-text-webpack-plugin": "^3.0.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "webpack": "^4.1.1",
+    "style-loader": "^0.20.3",
+    "webpack": "^3.11.0",
     "webpack-cli": "^2.0.10"
   },
   "babel": {
@@ -38,5 +42,6 @@
       "es2015",
       "react"
     ]
-  }
+  },
+  "optionalDependencies": {}
 }

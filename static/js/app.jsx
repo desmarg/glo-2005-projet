@@ -1,14 +1,17 @@
 import React from "react";
-import Main from "./components/Main";
-import Header from "./components/Header";
+import { Switch, Route } from 'react-router-dom';
+import MainLayout from "./components/MainLayout";
+import Login from "./components/Login";
 
 export default class App extends React.Component {
   render() {
     return (
-      <div>
-        <Header />
-        <Main />
-      </div>
+        <div>
+            <Switch>
+                <Route path='/' component={MainLayout} />
+                <Route path='/login' component={Login} />
+            </Switch>
+        </div>
     )
   }
 }
