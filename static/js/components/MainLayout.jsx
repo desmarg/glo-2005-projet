@@ -12,6 +12,7 @@ export default class MainLayout extends React.Component {
         return (
             <div>
                 <Sidebar />
+                <InnerContent />
             </div>
         )
     }
