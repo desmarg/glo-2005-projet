@@ -1,7 +1,5 @@
 import React from 'react';
 
-require('../../css/styles.css');
-
 export default class Sidebar extends React.Component {
     constructor(props) {
         super(props)
@@ -14,12 +12,12 @@ export default class Sidebar extends React.Component {
                 <div className="navbar-expand-md navbar-dark"> 
                 
                     <header className="d-none d-md-block">
-                        <h1><span>my</span>website</h1>
+                        <h1><span>Glo-2005</span>Recettes</h1>
                     </header>
                     
                     
                     <div className="mobile-header-controls">
-                        <a className="navbar-brand d-md-none d-lg-none d-xl-none" href="#"><span>my</span>website</a>
+                        <a className="navbar-brand d-md-none d-lg-none d-xl-none" href="#"><span>Glo-2005</span>Recettes</a>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#SidebarContent" aria-controls="SidebarContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
@@ -37,26 +35,26 @@ export default class Sidebar extends React.Component {
                                     </li>
 
                                     <li className="nav-item active dropdown">
-                                                <a className="nav-link dropdown-toggle" href="#MenuDropdown" data-toggle="collapse" aria-controls="MenuDropdown" aria-expanded="false">Examples &amp; Pages</a>
+                                                <a className="nav-link dropdown-toggle" href="#MenuDropdown" data-toggle="collapse" aria-controls="MenuDropdown" aria-expanded="false">Recettes &amp;</a>
                                                 <ul id="MenuDropdown" className="sub-navbar collapse flex-column">
-                                                    <li className="nav-item"><a className="nav-link" href="examples.html">Style Examples</a></li>
-                                                    <li className="nav-item"><a className="nav-link" href="three-column.html">Three Column</a></li>
-                                                    <li className="nav-item"><a className="nav-link" href="one-column.html">One column / no sidebar</a></li>
-                                                    <li className="nav-item"><a className="nav-link"  href="text.html">Text / left sidebar</a></li>
+                                                    <li className="nav-item"><a className="nav-link" href="examples.html">Ingredients</a></li>
+                                                    <li className="nav-item"><a className="nav-link" href="three-column.html">Profile</a></li>
+                                                    <li className="nav-item"><a className="nav-link" href="one-column.html">Forum</a></li>
+                                                    <li className="nav-item"><a className="nav-link"  href="text.html">Help</a></li>
                                                 </ul>
                                     </li>
 
 
                                     <li className="nav-item">
-                                            <a className="nav-link" href="#">Services</a>
+                                            <a className="nav-link" href="#">Ingredients</a>
                                     </li>
 
                                     <li className="nav-item">
-                                            <a className="nav-link" href="#">Products</a>
+                                            <a className="nav-link" href="#">Profile</a>
                                     </li>
 
                                     <li className="nav-item">
-                                            <a className="nav-link" href="#">Contact</a>
+                                            <a className="nav-link" href="#">Forum</a>
                                     </li>
                                 </ul>
                             </div>   
