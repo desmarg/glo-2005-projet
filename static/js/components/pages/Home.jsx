@@ -9,7 +9,7 @@ export default class Home extends React.Component {
                     <article>
                         <h2 className="article-title">Introduction to overflow</h2>
 
-                        <p className="article-meta">Posted on <time datetime="2017-05-14">14 May</time> by <a href="#" rel="author">Joe Bloggs</a></p>
+                        <p className="article-meta">Posted on <time dateTime="2017-05-14">14 May</time> by <a href="#" rel="author">Joe Bloggs</a></p>
 
                         <p>Welcome to overflow, a free CSS3 &amp; HTML5 responsive web template from <a href="https://zypopwebtemplates.com/" title="ZyPOP">ZyPOP</a>. This template is completely <strong>free</strong> to use permitting a link remains back to  <a href="https://zypopwebtemplates.com/" title="ZyPOP">https://zypopwebtemplates.com/</a>.</p>
 
@@ -34,7 +34,7 @@ export default class Home extends React.Component {
                     <article>
 
                         <h2 className="article-title">Buy unbranded</h2>
-                        <p className="article-meta">Posted on <time datetime="2017-05-14">14 May</time> by <a href="#" rel="author">Joe Bloggs</a></p>
+                        <p className="article-meta">Posted on <time dateTime="2017-05-14">14 May</time> by <a href="#" rel="author">Joe Bloggs</a></p>
 
                         <p>Purchasing a template license for 8.00 GBP (at time of writing around 10 USD) gives you the right to remove any branding including links, logos and source tags relating to ZyPOP. As well as waiving the attribution requirement, your payment will also help us provide continued support for users as well as creating new web templates. Find out more about how to buy at the licensing page on our website which can be accessed at <a href="https://zypopwebtemplates.com/licensing" title="template license">https://zypopwebtemplates.com/licensing</a></p>
 

@@ -1,6 +1,9 @@
 import configparser
 import pymysql
 import pymysql.cursors
+from RecipeDAO import RecipeDAO
+from UserDAO import UserDAO
+from IngredientDAO import IngredientDAO
 
 # Read MySQL config info from config/database.ini
 dbConfig = configparser.ConfigParser()
@@ -12,16 +15,6 @@ host, user, password, db = mySQLConfig['host'], mySQLConfig['user'], mySQLConfig
 connection = pymysql.connect(host, user, password, db, charset="utf8")
 cursor = connection.cursor()
 
-class RecipeDAO:
-    def __init__(self):
-        self.cursor = cursor
-    
-    def searchByIngredients(self, ingredientArray):
-        pass
-
-class UserDAO:
-    def __init__(self):
-        self.cursor = cursor
-
-    def createUser(self):
-        pass    
+recipeDAO = RecipeDAO(cursor)
+userDAO = UserDAO(cursor)
+ingredientDAO = IngredientDAO(cursor)
