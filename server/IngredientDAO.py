@@ -16,6 +16,11 @@ class IngredientDAO:
         self.cursor.execute(request)
         return self.cursor.fetchall()
 
+    def getByID(self, id):
+        request = "SELECT * FROM ingredients WHERE id = %s"
+        self.cursor.execute(request, (id))
+        return self.cursor.fetchall()
+
     def searchByName(self, searchQuery): 
         request = "SELECT * FROM ingredients WHERE name LIKE %s"
         self.cursor.execute(request, ("%"+searchQuery+"%",))

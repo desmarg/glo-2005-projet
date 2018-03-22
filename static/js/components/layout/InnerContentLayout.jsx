@@ -8,7 +8,11 @@ export default class InnerContentLayout extends React.Component {
             <div id="inner-content">
                 <div id="content-wrapper">
                     <main className="container-fluid">
-                       <InnerContentRouter />
+                    <div className="row">
+                        <div className="col">
+                            <InnerContentRouter />
+                        </div>
+                    </div>
                     </main>
                     <Footer />
                 </div>

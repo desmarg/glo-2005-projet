@@ -1,17 +1,26 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from database_interface import *
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
 
 #API routes
 
-@app.route('/api/ingredients/', methods=['GET', 'POST'])
-@app.route('/api/ingredients/<searchQuery>', methods=['GET'])
-def ingredientsAPI(searchQuery=None):
+@app.route('/api/ingredients', strict_slashes=False, methods=['GET', 'POST'])
+def ingredientsAPI():
     if request.method == 'GET':
+        searchQuery = request.args.get('search')
+        print(searchQuery)
         if searchQuery is None:
             ingredients = ingredientDAO.getAll()
-            return
+        else:
+            ingredients = ingredientDAO.searchByName(searchQuery)
+        arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in ingredients]
+        return jsonify(arrayToSerialize)
+
+@app.route('/api/ingredients/id/<id>', methods=['GET'])
+def particularIngredientAPI(id):
+    ingredient = ingredientDAO.getByID(id)
+    print(ingredient)
 
 # Application routes
 
