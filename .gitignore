@@ -103,3 +103,4 @@ ENV/
 
 # node modules
 static/node_modules/
+.vscode/settings.json
