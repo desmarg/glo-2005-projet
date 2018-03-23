@@ -16,17 +16,15 @@ class CommentDAO:
         dateComment = datetime.now()
         self.cursor.execute(request, (newId, email, recipe ,content, dateComment))
 
-    def edit(self, editComment, idComment):
+    def edit(self, newContent, commentId):
         request = "UPDATE Comments SET content = %s WHERE id = %s"
-        self.cursor.execute(request, (editComment, idComment))
-        self.connection.commit()
+        self.cursor.execute(request, (newContent, commentId))
 
-    def remove(self, idComment):
+    def remove(self, commentId):
         request = "DELETE FROM Comments WHERE id = %s"
-        self.cursor.execute(request, (idComment))
-        self.connection.commit()
+        self.cursor.execute(request, (commentId))
 
-    def getFromUser(self, userComments):
+    def getFromUser(self, email):
         request = "SELECT email, recipe, content, commenttime FROM Comments WHERE email = %s"
-        self.cursor.execute(request, (userComments))
+        self.cursor.execute(request, (email))
         return self.cursor.fetchall()
