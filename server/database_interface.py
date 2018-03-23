@@ -4,6 +4,7 @@ import pymysql.cursors
 from RecipeDAO import RecipeDAO
 from UserDAO import UserDAO
 from IngredientDAO import IngredientDAO
+from CommentDAO import CommentDAO
 
 # Read MySQL config info from config/database.ini
 dbConfig = configparser.ConfigParser()
@@ -18,3 +19,4 @@ cursor = connection.cursor()
 recipeDAO = RecipeDAO(cursor)
 userDAO = UserDAO(cursor)
 ingredientDAO = IngredientDAO(cursor)
+commentDAO = CommentDAO(cursor)
