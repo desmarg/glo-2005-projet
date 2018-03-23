@@ -1,5 +1,5 @@
 database.ini
-server/testDB.py
+testDB.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
