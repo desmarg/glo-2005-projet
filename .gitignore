@@ -1,4 +1,5 @@
 database.ini
+testDB.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -103,3 +104,4 @@ ENV/
 
 # node modules
 static/node_modules/
+.vscode/settings.json
