@@ -12,7 +12,7 @@ mySQLConfig = dbConfig['MYSQL']
 host, user, password, db = mySQLConfig['host'], mySQLConfig['user'], mySQLConfig['password'], mySQLConfig['db']
 
 # Initialize connection to the MySQL DB
-connection = pymysql.connect(host, user, password, db, charset="utf8")
+connection = pymysql.connect(host, user, password, db, charset="utf8", autocommit=True)
 cursor = connection.cursor()
 
 recipeDAO = RecipeDAO(cursor)

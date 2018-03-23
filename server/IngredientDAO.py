@@ -9,7 +9,6 @@ class IngredientDAO:
         newIngredientID = 1 if lastIngredientID is None else lastIngredientID + 1
         request = "INSERT INTO ingredients VALUES (" + str(newIngredientID) +", %s, %s)"
         return self.cursor.execute(request, (name, typeID))
-
     
     def getAll(self):
         request = "SELECT * FROM ingredients"

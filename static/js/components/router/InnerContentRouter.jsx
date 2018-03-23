@@ -4,6 +4,10 @@ import Home from '../pages/Home';
 import Ingredients from '../pages/Ingredients';
 
 export default class InnerContentRouter extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+    
     render() {
         return (
             <div>

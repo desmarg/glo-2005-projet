@@ -1,33 +1,38 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, abort, make_response
 from database_interface import *
+import os
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
 
 #API routes
 
-@app.route('/api/ingredients', strict_slashes=False, methods=['GET', 'POST'])
+# throw 404 if api route is unmatched
+@app.route('/api/<path:path>')
+def unmatchedAPIRoute(path):
+    abort(404)
+
+@app.route('/api/ingredients/', methods=['GET', 'POST'])
 def ingredientsAPI():
     if request.method == 'GET':
         searchQuery = request.args.get('search')
-        print(searchQuery)
         if searchQuery is None:
-            ingredients = ingredientDAO.getAll()
+            matchingIngredients = ingredientDAO.getAll()
         else:
-            ingredients = ingredientDAO.searchByName(searchQuery)
-        arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in ingredients]
+            matchingIngredients = ingredientDAO.searchByName(searchQuery)
+        arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
         return jsonify(arrayToSerialize)
 
 @app.route('/api/ingredients/id/<id>', methods=['GET'])
 def particularIngredientAPI(id):
     ingredient = ingredientDAO.getByID(id)
-    print(ingredient)
+    if ingredient:
+        return jsonify({'name': ingredient[0][1], 'id': ingredient[0][0], 'type': ingredient[0][2]})
+    else:
+        return make_response('', 204)
 
 # Application routes
 
-@app.route('/', methods=['GET'])
-def index():
-    return render_template('index.html')
-
-@app.route('/<path:path>', methods=['GET'])
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
 def any_root_path(path):
     return render_template('index.html')
