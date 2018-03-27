@@ -12,9 +12,9 @@ const config = {
     },
     externals: {
         'Config': JSON.stringify(process.env.ENV === 'production' ? {
-            serverUrl: "http://localhost:5000/api"
+            apiURL: "http://localhost:5000/api"
         } : {
-            serverUrl: "http://localhost:5000/api"
+            apiURL: "http://localhost:5000/api"
         })
     },
     module: {

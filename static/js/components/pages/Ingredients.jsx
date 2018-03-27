@@ -8,11 +8,10 @@ export default class Ingredients extends React.Component {
         this.state = {
             ingredients: []
         }
-        console.log(Config.serverUrl)
     }
 
     componentDidMount() {
-        fetch(Config.serverUrl + '/ingredients')
+        fetch(Config.apiURL + '/ingredients')
         .then(response => {
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
@@ -32,7 +31,7 @@ export default class Ingredients extends React.Component {
     }
 
     onSearchChange(e) {
-        fetch(Config.serverUrl + '/ingredients?search=' + e.target.value)
+        fetch(Config.apiURL + '/ingredients?search=' + e.target.value)
         .then(response => {
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
