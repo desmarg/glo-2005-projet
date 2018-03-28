@@ -10,6 +10,13 @@ const config = {
     resolve: {
         extensions: [".js", ".jsx", ".css"]
     },
+    externals: {
+        'Config': JSON.stringify(process.env.ENV === 'production' ? {
+            apiURL: "http://localhost:5000/api"
+        } : {
+            apiURL: "http://localhost:5000/api"
+        })
+    },
     module: {
         rules: [
             {
