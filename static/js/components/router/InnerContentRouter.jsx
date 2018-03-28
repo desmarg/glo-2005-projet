@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import Ingredients from '../pages/Ingredients';
+import Profile from '../pages/Profile';
 
 export default class InnerContentRouter extends React.Component {
     constructor(props) {
@@ -14,6 +15,7 @@ export default class InnerContentRouter extends React.Component {
                 <Switch>
                     <Route path='/home' component={Home} />
                     <Route path='/ingredients' component={Ingredients} />
+                    <Route path='/profile' component={Profile} />
                     <Route path='*' component={Home} />
                 </Switch>
             </div>

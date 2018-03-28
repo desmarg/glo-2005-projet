@@ -22,6 +22,31 @@ def ingredientsAPI():
         arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
         return jsonify(arrayToSerialize)
 
+@app.route('/api/profile/<email>', methods=['GET', 'POST'])
+def commentsAPI(email):
+    if request.method == 'GET':
+        commentRecipe = commentDAO.getFromUser(email)
+        if commentRecipe:
+            commentArray = [{'email': comment[0], 'recipe': comment[1], 'content' : comment[2], 'commenttime' : comment[3]} for comment in commentRecipe]
+        else:
+            commentArray = []
+        voteRecipe = voteDAO.getFromUser(email)
+        if voteRecipe:
+            voteArray = [{'recipe': vote[0], 'rating' : vote[1]} for vote in voteRecipe]
+        else:
+            voteArray = []
+        favoriteRecipe = favoriteDAO.getFromUser(email)
+        if favoriteRecipe:
+            favoriteArray = [{'recipe': favorite[0]} for favorite in favoriteRecipe]
+        else:
+            favoriteArray = []
+        profileDict = {
+            "comments": commentArray,
+            "votes": voteArray,
+            "favorites": favoriteArray
+        }
+        return jsonify(profileDict)
+
 @app.route('/api/ingredients/id/<id>', methods=['GET'])
 def particularIngredientAPI(id):
     ingredient = ingredientDAO.getByID(id)

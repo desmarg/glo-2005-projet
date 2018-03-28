@@ -6,6 +6,7 @@ from UserDAO import UserDAO
 from IngredientDAO import IngredientDAO
 from CommentDAO import CommentDAO
 from VoteDAO import VoteDAO
+from FavoriteDAO import FavoriteDAO
 
 # Read MySQL config info from config/database.ini
 dbConfig = configparser.ConfigParser()
@@ -22,3 +23,4 @@ userDAO = UserDAO(cursor)
 ingredientDAO = IngredientDAO(cursor)
 commentDAO = CommentDAO(cursor)
 voteDAO = VoteDAO(cursor)
+favoriteDAO = FavoriteDAO(cursor)
