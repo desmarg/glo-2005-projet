@@ -25,10 +25,9 @@ def ingredientsAPI():
 @app.route('/api/ingredients/id/<id>', methods=['GET'])
 def particularIngredientAPI(id):
     ingredient = ingredientDAO.getByID(id)
-    if ingredient:
-        return jsonify({'name': ingredient[0][1], 'id': ingredient[0][0], 'type': ingredient[0][2]})
-    else:
+    if not ingredient:
         return make_response('', 204)
+    return jsonify({'name': ingredient[0][1], 'id': ingredient[0][0], 'type': ingredient[0][2]})
 
 # Application routes
 

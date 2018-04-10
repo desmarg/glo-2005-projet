@@ -56,7 +56,7 @@ export default class Ingredients extends React.Component {
                 <input type="text" onChange={e => this.onSearchChange(e)}/>
                 {
                     this.state.ingredients.map(ingredient => (
-                        <div key={ingredient.id}> {ingredient.name} </div>
+                        <div key={ingredient.id}> <span> {ingredient.name} </span></div>
                     ))
                 }
             </div>
