@@ -5,7 +5,7 @@ import InnerContentLayout from "./InnerContentLayout";
 
 // URL params are stored  in props.match.params.nameOfParam
 
-export default class MainLayout extends React.Component {
+class MainLayout extends React.Component {
     render() {
         return (
             <div>
@@ -15,3 +15,5 @@ export default class MainLayout extends React.Component {
         )
     }
 }
+
+export default requireAuthentication(MainLayout)

@@ -21,18 +21,18 @@ def ingredientsAPI():
         else:
             matchingIngredients = ingredientDAO.searchByName(searchQuery)
         arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
-        return jsonify(arrayToSerialize)
+        return jsonify({"code": 200, "data": arrayToSerialize}), 200
 
 @app.route('/api/ingredients/id/<id>', methods=['GET'])
 def particularIngredientAPI(id):
     ingredient = ingredientDAO.getByID(id)
     if not ingredient:
         return make_response('', 204)
-    return jsonify({'name': ingredient[0][1], 'id': ingredient[0][0], 'type': ingredient[0][2]})
+    return jsonify({"code": 200, "data": {'name': ingredient[0][1], 'id': ingredient[0][0], 'type': ingredient[0][2]}}), 200
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
-    loginData = request.form
+    loginData = request.json
     if not (loginData["email"] and loginData["firstName"] and loginData["lastName"] and loginData["password"]):
         return jsonify({"code": 400, "message": 'Invalid or missing parameters'}), 400
 
@@ -42,13 +42,39 @@ def register():
         return jsonify({"code": 409,"message": 'User already exists'}), 409
     
     newToken = auth.create_token()
-    tokenDAO.create(newToken)
+    tokenDAO.create(newToken, email)
 
-    return jsonify({"userToken": newToken})
+    return jsonify({"code": 200, "userToken": newToken}), 200
+
+@app.route('/api/auth/login', methods=['POST'])
+def login():
+    loginData = request.json
+    if not (loginData["email"] and loginData["password"]):
+        return jsonify({"code": 400, "message": 'Invalid or missing parameters'}), 400
+
+    (email, password) = (loginData["email"], loginData["password"])
+    if not userDAO.verifyPassword(email, password):
+        return jsonify({"code": 401, "message": "Invalid credentials"}), 401
+    
+    newToken = auth.create_token()
+    tokenDAO.update(newToken, email)
+
+    return jsonify({"code": 200, "userToken": newToken}), 200
+
+@app.route('/api/auth/logout', methods=['POST'])
+def logout():
+    data = request.json
+    if not data["userToken"]:
+        return jsonify({"code": 400, "message": 'Invalid or missing parameters'}), 400
+    
+    tokenDAO.delete(data["userToken"])
+
+    return jsonify({"code": 200, "message": "User successfully logged out"}), 200
 
 @app.route('/api/auth/verifytoken', methods=['POST'])
 def verifyToken():
-    data = request.form
+    data = request.json
+    print(data)
     if not data["userToken"]:
         return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
 

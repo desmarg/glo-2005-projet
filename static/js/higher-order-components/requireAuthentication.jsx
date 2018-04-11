@@ -1,56 +1,53 @@
 import React, { Component } from 'react';
+import { Redirect, withRouter } from 'react-router-dom';
 
-const requireAuthentication = (component) => class extends React.Component {
+const requireAuthentication = (Component) => withRouter(class extends React.Component {
     componentWillMount() {
-        this.checkAuth();
-        this.state = {
-            isAuthenticated: false,
-        };
+        this.setState({
+            isAuthenticated: false
+        })
+        this.checkAuth()
     }
 
     componentWillReceiveProps(nextProps) {
-        this.checkAuth(nextProps);
+        this.checkAuth(nextProps)
     }
 
     checkAuth(props = this.props) {
         const token = localStorage.getItem('glo-2005-token');        
         if (!token) {
-            browserHistory.push('/login');
+            props.history.push('/login')
         } else {
-            fetch('/api/is_token_valid', {
+            fetch('/api/auth/verifytoken', { 
                 method: 'post',
                 credentials: 'include',
                 headers: {
                     'Accept': 'application/json', 
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ token }),
+                body: JSON.stringify({ userToken: token }),
             })
             .then(res => {
-                if (res.status === 200) {
-                    this.props.loginUserSuccess(token);
-                    this.setState({
-                        loaded_if_needed: true,
-                    });
-
+                if (res.status !== 200) {
+                    props.history.push('/login')
                 } else {
-                    browserHistory.push('/login');
+                    this.setState({
+                        isAuthenticated: true
+                    })
                 }
-            });
+            })
         }
     }
 
     render() {
         return (
             <div>
-                {this.state.isAuthenticated
-                    ? <Component {...this.props} />
-                    : null
+                {
+                    this.state.isAuthenticated ? <Component {...this.props} /> : null
                 }
             </div>
-        );
-
+        )
     }
-}
+})
 
 export default requireAuthentication

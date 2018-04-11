@@ -2,18 +2,27 @@ class TokenDAO:
     def __init__(self, cursor):
         self.cursor = cursor
     
-    def create(self, token):
-        request = "INSERT INTO tokens VALUES(%s, CURRENT_TIMESTAMP())"
-        self.cursor.execute(request, (token))
+    def create(self, token, email):
+        request = "INSERT INTO tokens VALUES(SHA1(%s), %s, CURRENT_TIMESTAMP())"
+        self.cursor.execute(request, (token, email))
+
+    def update(self, token, email):
+        request = "UPDATE tokens SET token = SHA1(%s) WHERE email = %s"
+        self.cursor.execute(request, (token, email))
 
     def delete(self, token):
-        request = "DELETE FROM tokens WHERE token = %s"
+        request = "UPDATE tokens SET token = NULL   WHERE token = SHA1(%s)"
         self.cursor.execute(request, (token))
 
     def isTokenValid(self, token):
-        request = "SELECT COUNT(*) FROM tokens WHERE token = %s"
+        request = "SELECT COUNT(*) FROM tokens WHERE token = SHA1(%s)"
         self.cursor.execute(request, (token))
         if self.cursor.fetchone()[0] != 1:
             return False
         else:
             return True
+
+    def getEmail(self, token):
+        request = "SELECT email FROM tokens WHERE token = SHA1(%s)"
+        self.cursor.execute(request, (token))
+        return self.cursor.fetchall()

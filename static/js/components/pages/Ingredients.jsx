@@ -20,7 +20,7 @@ export default class Ingredients extends React.Component {
 
                 response.json().then(data => {
                     this.setState({
-                        ingredients: data
+                        ingredients: data.data
                     })
                 });
             }
@@ -40,7 +40,7 @@ export default class Ingredients extends React.Component {
 
                 response.json().then(data => {
                     this.setState({
-                        ingredients: data
+                        ingredients: data.data
                     })
                 });
             }
