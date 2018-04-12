@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import requireNoAuthentication from '../../higher-order-components/requireNoAuthentication';
 import { Link } from 'react-router-dom';
 require('../../../css/login.css');
+const Config = require('Config');
 
 class Register extends React.Component {
     constructor(props) {
@@ -51,7 +52,7 @@ class Register extends React.Component {
         this.setState({
             loading: true
         })
-        fetch('/api/auth/register', { 
+        fetch(Confg.apiURL + '/auth/register', { 
             method: 'post',
             credentials: 'include',
             headers: {
@@ -73,10 +74,20 @@ class Register extends React.Component {
                 })
             } else if (res.status == 200) {
                 res.json().then(response => {
-                    localStorage.setItem("glo-2005-token", response.userToken)
+                    localStorage.setItem(Config.localTokenKey, response.userToken)
                     this.props.history.push('/home')
                 })
+            } else {
+                this.setState({
+                    loading: false,
+                    errorMessage: "Il y a eu une erreur, veuillez recommencer."
+                })
             }
+        }).catch(error => {
+            this.setState({
+                loading: false,
+                errorMessage: "Il y a eu une erreur, veuillez recommencer."
+            })
         })
     }
 

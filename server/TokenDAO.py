@@ -7,7 +7,7 @@ class TokenDAO:
         self.cursor.execute(request, (token, email))
 
     def update(self, token, email):
-        request = "UPDATE tokens SET token = SHA1(%s) WHERE email = %s"
+        request = "INSERT INTO tokens (token, email, createtime) VALUES (SHA1(%s), %s, CURRENT_TIMESTAMP()) ON DUPLICATE KEY UPDATE token=VALUES(token), createtime=VALUES(createtime)"
         self.cursor.execute(request, (token, email))
 
     def delete(self, token):

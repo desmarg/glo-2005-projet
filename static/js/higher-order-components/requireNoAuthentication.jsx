@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
+const Config = require('Config');
 
 const requireNoAuthentication = (Component) => withRouter(class extends React.Component {
     componentWillMount() {
@@ -14,13 +15,13 @@ const requireNoAuthentication = (Component) => withRouter(class extends React.Co
     }
 
     checkAuth(props = this.props) {
-            const token = localStorage.getItem('glo-2005-token')     
+            const token = localStorage.getItem(Config.localTokenKey)     
             if (!token) {
                 this.setState({
                     isAuthenticated: false
                 })
             } else {
-                fetch('/api/auth/verifytoken', { 
+                fetch(Config.apiURL + '/auth/verifytoken', { 
                     method: 'post',
                     credentials: 'include',
                     headers: {
@@ -33,7 +34,7 @@ const requireNoAuthentication = (Component) => withRouter(class extends React.Co
                     if (res.status === 200) {
                         props.history.push('/home')
                     } else {
-                        localStorage.removeItem('glo-2005-token')
+                        localStorage.removeItem(Config.localTokenKey)
                         this.setState({
                             isAuthenticated: false
                         })

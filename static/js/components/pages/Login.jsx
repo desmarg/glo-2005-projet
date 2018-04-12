@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import requireNoAuthentication from '../../higher-order-components/requireNoAuthentication';
 require('../../../css/login.css');
+const Config = require('Config');
 
 class Login extends React.Component {
     constructor(props) {
@@ -42,7 +43,7 @@ class Login extends React.Component {
         this.setState({
             loading: true
         })
-        fetch('/api/auth/login', { 
+        fetch(Config.apiURL + '/auth/login', { 
             method: 'post',
             credentials: 'include',
             headers: {
@@ -62,15 +63,25 @@ class Login extends React.Component {
                 })
             } else if (res.status == 200) {
                 res.json().then(response => {
-                    localStorage.setItem("glo-2005-token", response.userToken)
+                    localStorage.setItem(Config.localTokenKey, response.userToken)
                     this.props.history.push('/home')
                 })
             }
+            else {
+                this.setState({
+                    loading: false,
+                    errorMessage: "Il y a eu une erreur, veuillez recommencer."
+                })
+            }
+        }).catch(error => {
+            this.setState({
+                loading: false,
+                errorMessage: "Il y a eu une erreur, veuillez recommencer."
+            })
         })
     }
 
     handleChange(field, event) {
-        console.log("yo")
         this.setState({[field]: event.target.value})
     }
 
