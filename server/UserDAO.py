@@ -18,3 +18,8 @@ class UserDAO:
             return True
         else:
             return False
+
+    def getByEmail(self, email):
+        request = "SELECT * FROM userProfiles WHERE email = %s"
+        self.cursor.execute(request, (email))
+        return self.cursor.fetchall()

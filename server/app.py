@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify, abort, make_response, url_for
-from database_interface import userDAO, commentDAO, recipeDAO, tokenDAO, voteDAO, ingredientDAO
+from database_interface import userDAO, commentDAO, recipeDAO, tokenDAO, voteDAO, ingredientDAO, userIngredientsDAO
 import os
 import auth
+import json
+import pymysql
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
 
@@ -74,7 +76,6 @@ def logout():
 @app.route('/api/auth/verifytoken', methods=['POST'])
 def verifyToken():
     data = request.json
-    print(data)
     if not data["userToken"]:
         return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
 
@@ -82,6 +83,37 @@ def verifyToken():
         return jsonify({"code": 403, "tokenIsValid": False}), 403
     
     return jsonify({"code": 200, "tokenIsValid": True}), 200
+
+@app.route('/api/user/<token>', methods=['GET', 'POST'])
+def user(token):
+    if request.method == 'GET':
+        userEmail = tokenDAO.getEmail(token)
+        if not userEmail:
+            return jsonify({"code": 404, "message": "Can't find user"}), 404
+        userInfo = userDAO.getByEmail(userEmail)
+        return jsonify({"code": 200, "data": {"email": userInfo[0][0], "firstName": userInfo[0][1], "lastName": userInfo[0][2]}}), 200
+
+@app.route('/api/user/<token>/ingredients', methods=['GET', 'POST', 'DELETE'])
+def userIngredients(token):
+    userEmail = tokenDAO.getEmail(token)
+    if not userEmail:
+        return jsonify({"code": 404, "message": "Can't find user"}), 404
+
+    if request.method == 'POST':
+        data = request.json
+        if not data["ingredientIds"]:
+            return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
+        ingredientIds = [int(id) for id in data["ingredientIds"]]
+        try:
+            userIngredientsDAO.addToUser(userEmail, ingredientIds)
+        except pymysql.err.IntegrityError:
+            pass
+    
+    userIngredientIds = userIngredientsDAO.getUserIngredients(userEmail)
+    matchingIngredients = ingredientDAO.getSeveral(userIngredientIds)
+    arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
+    return jsonify({"code": 200, "data": arrayToSerialize}), 200
+        
 
 # Application routes
 
