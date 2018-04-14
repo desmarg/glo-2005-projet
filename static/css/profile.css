@@ -1,0 +1,120 @@
+h3 {
+  font-size: 15pt;
+  /*color: #20bcd5;*/
+  text-align: center;
+  padding: 18px 0 18px 0;
+  margin: 0 0 10px 0;
+}
+h3 span {
+  /*border: 4px dashed #20bcd5;*/
+  padding: 10px;
+}
+.comments{
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  /*border-radius: 10px;*/
+  border: 1px solid #80B763;
+}
+.comments div{
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  /*border-radius: 10px;*/
+  border: 1px solid #80B763;
+}
+.commenttime {
+  font-size: 12pt;
+  text-align: right;
+  margin-top: 10px;
+}
+.votes{
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  /*border-radius: 10px;*/
+  border: 1px solid #80B763;
+}
+
+.stars-outer {
+  display: inline-block;
+  position: relative;
+  font-family: FontAwesome;
+}
+
+.stars-outer::before {
+  content: "☆☆☆☆☆";
+}
+
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 40%;
+}
+
+.stars-inner::before {
+  content: "\2605\2605\2605\2605\2605";
+  color: #f8ce0b;
+}
+
+.attribution {
+  font-size: 12px;
+  color: #444;
+  text-decoration: none;
+  text-align: center;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: -1;
+}
+.attribution:hover {
+  color: #1fa67a;
+}
+
+/*
+.hide {
+  display:none;
+}
+.rating {
+  width: 90px;
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  text-align: center;
+  position: relative;
+}
+
+.rating > label {
+  float: right;
+  display: inline;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  width: 1.1em;
+  cursor: pointer;
+}
+
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
+  color: transparent;
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating > input.radio-btn:checked ~ label:before,
+.rating > input.radio-btn:checked ~ label:before {
+  content: "\2605";
+  position: absolute;
+  left: 0;
+  color: #FFD700;
+}*/
+.favorites{
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  /*border-radius: 10px;*/
+  border: 1px solid #80B763;
+}
