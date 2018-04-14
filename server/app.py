@@ -119,8 +119,11 @@ def userIngredients(token):
             pass
     
     userIngredientIds = userIngredientsDAO.getUserIngredients(userEmail)
-    matchingIngredients = ingredientDAO.getSeveral(userIngredientIds)
-    arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
+    if len(userIngredientIds) == 0:
+        arrayToSerialize = []
+    else:
+        matchingIngredients = ingredientDAO.getSeveral(userIngredientIds)
+        arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
     return jsonify({"code": 200, "data": arrayToSerialize}), 200
         
 
