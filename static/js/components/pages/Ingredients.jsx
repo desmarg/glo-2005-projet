@@ -60,6 +60,66 @@ export default class Ingredients extends React.Component {
         return true
     }
 
+    remove(id) {
+        fetch(Config.apiURL + '/user/' + localStorage.getItem(Config.localTokenKey) + '/ingredients', { 
+            method: 'delete',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                ingredientIds: [id]
+            }),
+        })
+        .then(response => {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+
+                response.json().then(data => {
+                    this.setState({
+                        userIngredients: data.data
+                    })
+                });
+            }
+        )
+        .catch(err => {
+            console.log('Fetch Error :-S', err);
+        });
+    }
+
+    add(id) {
+        fetch(Config.apiURL + '/user/' + localStorage.getItem(Config.localTokenKey) + '/ingredients', { 
+            method: 'post',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                ingredientIds: [id]
+            }),
+        })
+        .then(response => {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+
+                response.json().then(data => {
+                    this.setState({
+                        userIngredients: data.data
+                    })
+                });
+            }
+        )
+        .catch(err => {
+            console.log('Fetch Error :-S', err);
+        });
+    }
+
     render() {
         return (
             <article>
@@ -74,7 +134,7 @@ export default class Ingredients extends React.Component {
                                     this.state.ingredients.length > 0 ?
                                     this.state.ingredients.map(ingredient => (
                                         <div key={ingredient.id}>
-                                        <span> 
+                                        <span style={{cursor: "pointer"}} onClick={() => this.add(ingredient.id)}> 
                                             {ingredient.name} 
                                             {
                                                 this.isIngredientInUsers(ingredient.id) ? 
@@ -98,7 +158,7 @@ export default class Ingredients extends React.Component {
                                 {
                                     this.state.userIngredients.map(ingredient => (
                                         <div key={ingredient.id}>
-                                            <span>
+                                            <span style={{cursor: "pointer"}} onClick={() => this.remove(ingredient.id)}>
                                                 {ingredient.name}
                                             </span>
                                         </div>

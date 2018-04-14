@@ -108,6 +108,15 @@ def userIngredients(token):
             userIngredientsDAO.addToUser(userEmail, ingredientIds)
         except pymysql.err.IntegrityError:
             pass
+    if request.method == 'DELETE':
+        data = request.json
+        if not data["ingredientIds"]:
+            return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
+        ingredientIds = [int(id) for id in data["ingredientIds"]]
+        try:
+            userIngredientsDAO.removeFromUser(userEmail, ingredientIds)
+        except pymysql.err.IntegrityError:
+            pass
     
     userIngredientIds = userIngredientsDAO.getUserIngredients(userEmail)
     matchingIngredients = ingredientDAO.getSeveral(userIngredientIds)

@@ -7,9 +7,10 @@ class UserIngredientsDAO:
         for id in ingredientIds:
             self.cursor.execute(request, (email, id))
 
-    def removeFromUser(self, email, ingredientId):
+    def removeFromUser(self, email, ingredientIds):
         request = "DELETE FROM userIngredients WHERE email = %s AND ingredient = %s"
-        self.cursor.execute(request, (email, ingredientId))
+        for id in ingredientIds:
+            self.cursor.execute(request, (email, id))
 
     def getUserIngredients(self, email):
         request = "SELECT ingredient FROM userIngredients WHERE email = %s"
