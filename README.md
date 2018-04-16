@@ -91,3 +91,4 @@ Scénario de test:
 8. Vous pouvez laisser un commentaire et voter. La note sur 5 de la recette (sous le titre) sera mise à jour lorsque vous rafraichissez la page.
 9. Visitez votre profil pour voir les recettes sur lesquelles vous avez commenté et (ou) voté.
 10. Déconnectez-vous
+
