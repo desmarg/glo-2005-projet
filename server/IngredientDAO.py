@@ -1,3 +1,5 @@
+from sqlUtils import makeTupleStringFromArray
+
 class IngredientDAO:
     def __init__(self, cursor):
         self.cursor = cursor
@@ -38,4 +40,9 @@ class IngredientDAO:
     def getFromRecipe(self, recipeID):
         request = "SELECT * FROM recipeingredients WHERE recipe = %s"
         self.cursor.execute(request)
+        return self.cursor.fetchall()
+
+    def getSeveral(self, ids):
+        request = "SELECT * FROM ingredients WHERE id IN" + makeTupleStringFromArray(ids)
+        self.cursor.execute(request, tuple(ids))
         return self.cursor.fetchall()
