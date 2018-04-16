@@ -31,7 +31,7 @@ class RecipeDAO:
         self.cursor.execute(request)
         return self.cursor.fetchall()
 
-    def searchByNote(self);
+    def searchByNote(self):
         request = "SELECT * FROM recipes where note = %s"
         self.cursor.execute(request)
         return self.cursor.fetchall()
