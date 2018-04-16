@@ -8,6 +8,7 @@ export default class RecipeDetails extends React.Component {
         this.state = {
             recipe: {},
             userVote: 0,
+            userComment: "",
             comment: []
         }
     }
@@ -73,9 +74,43 @@ export default class RecipeDetails extends React.Component {
         })  
     }
 
+    sendComment() {
+        if (this.state.userComment.length === 0)  {
+             return
+        }
+        fetch(Config.apiURL + '/user/' + localStorage.getItem(Config.localTokenKey) + '/comments/id/' + this.props.match.params.id, { 
+            method: 'post',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userComment: this.state.userComment
+            }),
+        })
+        .then(res => {
+            res.json().then(response => {
+                this.setState({
+                    recipe: response.data,
+                    userComment: ""
+                });
+            })
+        }).catch(error => {
+            this.setState({
+                errorMessage: "Il y a eu une erreur, veuillez recommencer."
+            })
+        })
+    }
+
+    onCommentChange(event) {
+        this.setState({
+            userComment: event.target.value
+        })
+    }
+
     render() {
         const recipe = this.state.recipe
-        console.log(this.state.userVote)
         return (
             <article>
                 <div>
@@ -103,6 +138,26 @@ export default class RecipeDetails extends React.Component {
                         value={this.state.userVote}
                         onStarClick={this.onStarClick.bind(this)}
                     /></span>
+                    <div className="row">
+                        <div className="col col-md-2">
+                            Votre commentaire:
+                        </div>
+                        <div className="col col-md-6">
+                            <textarea onChange={e => this.onCommentChange(e)} style={{ width: "100%", height: "200px"}} type="text" value={this.state.userComment}/>
+                            <button onClick={() => this.sendComment()}>Envoyer</button>
+                        </div>
+                    </div>
+                    <h3>Commentaires:</h3>
+                    {
+                        recipe.comments ?
+                        recipe.comments.map((comment, index) => (
+                            <div key={index}>
+                                <b>{comment.email}</b>: {comment.content}
+                            </div>
+                        ))
+                        :
+                        null
+                    }
                 </div>
             </article>
         )
