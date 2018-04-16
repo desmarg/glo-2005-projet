@@ -32,6 +32,14 @@ def particularIngredientAPI(id):
         return make_response('', 204)
     return jsonify({"code": 200, "data": {'name': ingredient[0][1], 'id': ingredient[0][0], 'type': ingredient[0][2]}}), 200
 
+@app.route('/api/recipes/id/<id>', methods=['GET'])
+def recipes(id):
+    recipe = recipeDAO.getByID(id)
+    if not recipe:
+        return jsonify({"code": 204, "message": "Recipe doesn't exist"}), 204
+    recipe = recipe[0]
+    return jsonify({"code": 200, "data": {'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6]}}), 200
+
 @app.route('/api/auth/register', methods=['POST'])
 def register():
     loginData = request.json
@@ -126,6 +134,37 @@ def userIngredients(token):
         arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
     return jsonify({"code": 200, "data": arrayToSerialize}), 200
         
+@app.route('/api/user/<token>/recipes', methods=['GET'])
+def userRecipes(token):
+    userEmail = tokenDAO.getEmail(token)
+    if not userEmail:
+        return jsonify({"code": 404, "message": "Can't find user"}), 404
+    
+    userIngredientIds = userIngredientsDAO.getUserIngredients(userEmail)
+    userRecipes = recipeDAO.searchByIngredients(userIngredientIds)
+    arrayToSerialize = [{'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6]} for recipe in userRecipes]
+    return jsonify({"code": 200, "data": arrayToSerialize}), 200
+
+@app.route('/api/user/<token>/votes/id/<id>', methods=['GET', 'POST'])
+def voteForRecipe(token, id):
+    userEmail = tokenDAO.getEmail(token)
+    if not userEmail:
+        return jsonify({"code": 404, "message": "Can't find user"}), 404
+    
+    if request.method == 'GET':
+        userVote = voteDAO.getUserVoteForRecipe(userEmail, id)
+        if not userVote:
+            returnRating = 0
+        else:
+            returnRating = userVote[0]
+    elif request.method == 'POST':
+        data = request.json
+        if not data["userVote"]:
+            return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
+        voteDAO.update(id, userEmail, data["userVote"])
+        returnRating = data["userVote"]
+
+    return jsonify({"code": 200, "data": {"rating": returnRating}}), 200
 
 # Application routes
 
