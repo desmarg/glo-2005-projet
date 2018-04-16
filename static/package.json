@@ -22,9 +22,7 @@
   "dependencies": {
     "npm": "^5.7.1",
     "react-router-dom": "^4.2.2",
-    "react-star-rating": "^1.4.2",
-    "react-star-rating-component": "^1.4.1",
-    "react-stars": "^2.2.5"
+    "react-star-rating-component": "^1.4.1"
   },
   "devDependencies": {
     "3.0.0": "^3.0.0",
