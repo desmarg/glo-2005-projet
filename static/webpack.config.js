@@ -12,9 +12,11 @@ const config = {
     },
     externals: {
         'Config': JSON.stringify(process.env.ENV === 'production' ? {
-            apiURL: "http://localhost:5000/api"
+            apiURL: "http://localhost:5000/api",
+            localTokenKey: 'glo-2005-token'
         } : {
-            apiURL: "http://localhost:5000/api"
+            apiURL: "http://localhost:5000/api",
+            localTokenKey: 'glo-2005-token'
         })
     },
     module: {

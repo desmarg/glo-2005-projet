@@ -1,9 +1,47 @@
 import React from 'react';
+import { withRouter, Link } from 'react-router-dom';
+const Config = require('Config');
 
-export default class Sidebar extends React.Component {
+class Sidebar extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+           activeRoute: props.location.pathname.split("/")[1]
+        }
+        this.getNavLinkClass = this.getNavLinkClass.bind(this)
     }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            activeRoute: nextProps.location.pathname.split("/")[1]
+         })
+    }
+
+    logout() {
+        let token = localStorage.getItem(Config.localTokenKey)
+        fetch(Config.apiURL + '/auth/logout', { 
+            method: 'post',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                userToken: token
+            }),
+        })
+        .then(res => {
+            localStorage.deleteItem(Config.localTokenKey)
+            this.props.history.push('/login')
+        }).catch(error => {
+
+        })
+    }
+
+    getNavLinkClass(linkRoute) {
+        return linkRoute === this.state.activeRoute ? "nav-item active" : "nav-item"
+    }
+
     render() {
         return (
             <div id="sidebar">
@@ -29,54 +67,35 @@ export default class Sidebar extends React.Component {
                         <nav className="navbar navbar-dark">
                             <div id="mainNavbar">
                                 <ul className="flex-column mr-auto">
-                                    <li className="nav-item">
-                                            <a className="nav-link" href="index.html">Home <span className="sr-only">(current)</span></a>
+                                    <li className={this.getNavLinkClass("home")}>
+                                        <Link className="nav-link" to="/home">Accueil</Link>
                                     </li>
 
-                                    <li className="nav-item active dropdown">
-                                                <a className="nav-link dropdown-toggle" href="#MenuDropdown" data-toggle="collapse" aria-controls="MenuDropdown" aria-expanded="false">Recettes &amp;</a>
-                                                <ul id="MenuDropdown" className="sub-navbar collapse flex-column">
-                                                    <li className="nav-item"><a className="nav-link" href="examples.html">Ingredients</a></li>
-                                                    <li className="nav-item"><a className="nav-link" href="three-column.html">Profile</a></li>
-                                                    <li className="nav-item"><a className="nav-link" href="one-column.html">Forum</a></li>
-                                                    <li className="nav-item"><a className="nav-link"  href="text.html">Help</a></li>
-                                                </ul>
+                                    <li className={this.getNavLinkClass("recipes")}>
+                                            <Link className="nav-link" to="/recipes">Recettes</Link>
                                     </li>
 
+                                    <li className={this.getNavLinkClass("ingredients")}>
+                                            <Link className="nav-link" to="/ingredients">Ingredients</Link>
+                                    </li>
 
-                                    <li className="nav-item">
-                                            <a className="nav-link" href="#">Ingredients</a>
+                                    <li className={this.getNavLinkClass("profile")}>
+                                        <Link className="nav-link" to="/profile">Profil</Link>
                                     </li>
 
                                     <li className="nav-item">
-                                            <a className="nav-link" href="#">Profile</a>
-                                    </li>
-
-                                    <li className="nav-item">
-                                            <a className="nav-link" href="#">Forum</a>
+                                            <span className="nav-link" onClick={() => this.logout()}><b><i className="fas fa-sign-out-alt"></i> Se déconnecter</b></span>
                                     </li>
                                 </ul>
                             </div>   
                         </nav>
-                    
-                    
-                    
-                        <form className="form-inline sidebar-search-form my-2 my-lg-0">
-                            <input className="form-control mr-sm-2" type="text" size="10"  placeholder="Search" aria-label="Search" />
-                            <button className="btn my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-            
 
-                        <p className="sidebar-social-icons social-icons">
-                            <a href="#"><i className="fa fa-facebook fa-2x"></i></a>
-                            <a href="#"><i className="fa fa-twitter fa-2x"></i></a>
-                            <a href="#"><i className="fa fa-youtube fa-2x"></i></a>
-                            <a href="#"><i className="fa fa-instagram fa-2x"></i></a>
-                        </p>
-                    
+                        
                     </div>
                 </div> 
             </div>
         )
     }
 }
+
+export default withRouter(Sidebar)
