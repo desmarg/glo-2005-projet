@@ -8,43 +8,10 @@ export default class Footer extends React.Component {
                     <div className="footer-lists">
                         <div className="row">
                             <div className="col-sm">
-                                <ul>
-                                    <li><h4>Proin accumsan</h4></li>
-                                    <li><a href="#">Rutrum nulla a ultrices</a></li>
-                                    <li><a href="#">Blandit elementum</a></li>
-                                    <li><a href="#">Proin placerat accumsan</a></li>
-                                    <li><a href="#">Morbi hendrerit libero </a></li>
-                                    <li><a href="#">Curabitur sit amet tellus</a></li>
-                                </ul>
-                            </div>
-                            <div className="col-sm">
-                                <ul>
-                                    <li><h4>Condimentum</h4></li>
-                                    <li><a href="#">Curabitur sit amet tellus</a></li>
-                                    <li><a href="#">Morbi hendrerit libero </a></li>
-                                    <li><a href="#">Proin placerat accumsan</a></li>
-                                    <li><a href="#">Rutrum nulla a ultrices</a></li>
-                                    <li><a href="#">Cras dictum</a></li>
-                                </ul>
-                            </div>   
-                            <div className="col-sm">
-                                <ul>
-                                    <li><h4>Suspendisse</h4></li>
-                                    <li><a href="#">Morbi hendrerit libero </a></li>
-                                    <li><a href="#">Proin placerat accumsan</a></li>
-                                    <li><a href="#">Rutrum nulla a ultrices</a></li>
-                                    <li><a href="#">Curabitur sit amet tellus</a></li>
-                                    <li><a href="#">Donec in ligula nisl.</a></li>
-                                </ul>
-                            </div>
-                            <div className="col-sm">
-                                <h4>Suspendisse</h4>
-                                <p>Integer mattis blandit turpis, quis rutrum est. Maecenas quis arcu vel felis lobortis iaculis fringilla at ligula. Nunc dignissim porttitor dolor eget porta.</p>
+                                <h4>GLO-2005 Projet de session</h4>
+                                <p>Réalisé par l'équipe 13. Session d'hiver 2018.</p>
                                 <p className="social-icons">
-                                    <a href="#"><i className="fa fa-facebook fa-2x"></i></a>
-                                    <a href="#"><i className="fa fa-twitter fa-2x"></i></a>
-                                    <a href="#"><i className="fa fa-youtube fa-2x"></i></a>
-                                    <a href="#"><i className="fa fa-instagram fa-2x"></i></a>
+                                    <a href="https://github.com/desmarg/glo-2005-projet"><i className="fab fa-github fa-2x"></i></a>
                                 </p>
                             </div>
                         </div>

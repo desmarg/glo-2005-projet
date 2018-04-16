@@ -38,7 +38,9 @@ def recipes(id):
     if not recipe:
         return jsonify({"code": 204, "message": "Recipe doesn't exist"}), 204
     recipe = recipe[0]
-    return jsonify({"code": 200, "data": {'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6]}}), 200
+    comments = commentDAO.getFromRecipe(recipe[0])
+    commentArray = [{"email": comment[0], "content": comment[1]} for comment in comments]
+    return jsonify({"code": 200, "data": {'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6], "comments": commentArray}}), 200
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
@@ -98,8 +100,33 @@ def user(token):
         userEmail = tokenDAO.getEmail(token)
         if not userEmail:
             return jsonify({"code": 404, "message": "Can't find user"}), 404
+       
         userInfo = userDAO.getByEmail(userEmail)
-        return jsonify({"code": 200, "data": {"email": userInfo[0][0], "firstName": userInfo[0][1], "lastName": userInfo[0][2]}}), 200
+
+        userVotes = voteDAO.getFromUser(userEmail)
+        userVoteArray = [
+            {
+                "recipe": {
+                    "id": vote[0],
+                    "name": recipeDAO.getByID(vote[0])[0][1]
+                },
+                "rating": vote[1]
+            }
+            for vote in userVotes
+        ]
+        
+        userComments = commentDAO.getFromUser(userEmail)
+        userCommentArray = [
+            {
+                "recipe": {
+                    "id": comment[0],
+                    "name": recipeDAO.getByID(comment[0])[0][1]
+                },
+                "content": comment[1]
+            }
+            for comment in userComments
+        ]
+        return jsonify({"code": 200, "data": {"email": userInfo[0][0], "firstName": userInfo[0][1], "lastName": userInfo[0][2], "votes": userVoteArray, "comments": userCommentArray}}), 200
 
 @app.route('/api/user/<token>/ingredients', methods=['GET', 'POST', 'DELETE'])
 def userIngredients(token):
@@ -165,6 +192,27 @@ def voteForRecipe(token, id):
         returnRating = data["userVote"]
 
     return jsonify({"code": 200, "data": {"rating": returnRating}}), 200
+
+@app.route('/api/user/<token>/comments/id/<id>', methods=['GET', 'POST'])
+def commentForRecipe(token, id):
+    userEmail = tokenDAO.getEmail(token)
+    if not userEmail:
+        return jsonify({"code": 404, "message": "Can't find user"}), 404
+    
+    recipe = recipeDAO.getByID(id)
+    if not recipe:
+        return jsonify({"code": 204, "message": "Recipe doesn't exist"}), 204
+    recipe = recipe[0]
+    
+    if request.method == 'POST':
+        data = request.json
+        if not data["userComment"]:
+            return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
+        commentDAO.create(userEmail, id, data["userComment"])
+
+    comments = commentDAO.getFromRecipe(recipe[0])
+    commentArray = [{"email": comment[0], "content": comment[1]} for comment in comments]
+    return jsonify({"code": 200, "data": {'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6], "comments": commentArray}}), 200
 
 # Application routes
 
