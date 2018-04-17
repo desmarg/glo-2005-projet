@@ -52,7 +52,7 @@ class Register extends React.Component {
         this.setState({
             loading: true
         })
-        fetch(Confg.apiURL + '/auth/register', { 
+        fetch(Config.apiURL + '/auth/register', { 
             method: 'post',
             credentials: 'include',
             headers: {

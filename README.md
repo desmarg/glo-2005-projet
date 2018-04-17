@@ -1,7 +1,7 @@
 # Guide de cuisine (Projet de session de l'équipe 13 pour le cours GLO-2005, Hiver 2018)
 
 # À l'attention du correcteur
-1. Nous avons créé un API REST pour ce projet. Le frontend de l'application y fait souvent des requêtes. Il arrive parfois que certaines requêtes prennent du temps à s'exécuter, mais elles fonctionnent toutes. Donc si vous remarquez parfois un certain délai entre une action et une réponse du frontend, il suffit d'attendre quelques secondes. En appuyant sur F12 et en allant dans la section network (ou réseau) dans votre navigateur, vous verrez alors une ou plusieurs requêtes pending. Elles se résolveront toutes seules après quelques secondes.
+1. Nous avons créé un API REST pour ce projet. Le frontend de l'application y fait souvent des requêtes. Il arrive parfois que certaines requêtes prennent du temps à s'exécuter **surtout lors de la recherche d'ingrédients et de l'envoi de commentaires**, mais elles fonctionnent toutes. Donc si vous remarquez parfois un certain délai entre une action et une réponse du frontend, il suffit d'attendre quelques secondes. En appuyant sur F12 et en allant dans la section network (ou réseau) dans votre navigateur, vous verrez alors une ou plusieurs requêtes pending. Elles se résolveront toutes seules après quelques secondes.
 2. Certains éléments graphiques utilisent des librairies externes telles que bootstrap. Assurez-vous d'être connecté à internet pour avoir le design voulu.
 3. Lisez la section [Scénario de test](#scénario-de-test) pour une explication du fonctionnement de l'application et une suggestion de scénario pour la tester.
 

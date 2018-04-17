@@ -168,8 +168,11 @@ def userRecipes(token):
         return jsonify({"code": 404, "message": "Can't find user"}), 404
     
     userIngredientIds = userIngredientsDAO.getUserIngredients(userEmail)
-    userRecipes = recipeDAO.searchByIngredients(userIngredientIds)
-    arrayToSerialize = [{'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6]} for recipe in userRecipes]
+    if not userIngredientIds:
+        arrayToSerialize = []
+    else:
+        userRecipes = recipeDAO.searchByIngredients(userIngredientIds)
+        arrayToSerialize = [{'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6]} for recipe in userRecipes]
     return jsonify({"code": 200, "data": arrayToSerialize}), 200
 
 @app.route('/api/user/<token>/votes/id/<id>', methods=['GET', 'POST'])
