@@ -30,6 +30,8 @@ Modifiez le fichier `server/config/database.ini` en remplaçant les 4 valeurs so
 
 2. Roulez le script `setup.py` situé dans le dossier `server/config`
 
+**Attention, le script importe 4 fichiers csv de données. Si des erreurs surviennent lors de cet import, vous pouvez faire l'import manuellement avec la méthode de votre choix en utilisant les 4 fichiers .csv dans `server/config`. Chaque fichier est nommé selon la table à laquelle il correspond.**
+
 # Rouler le projet
 
 Déplacez-vous dans le dossier server/:
