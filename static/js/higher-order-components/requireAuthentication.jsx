@@ -23,8 +23,7 @@ const requireAuthentication = (Component) => withRouter(class extends React.Comp
                 method: 'post',
                 credentials: 'include',
                 headers: {
-                    'Accept': 'application/json', 
-                    'Content-Type': 'application/json'
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify({ userToken: token }),
             })

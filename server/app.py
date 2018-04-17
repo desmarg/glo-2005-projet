@@ -18,8 +18,6 @@ def crossdomain(origin=None, methods=None, headers=None,
         methods = ', '.join(sorted(x.upper() for x in methods))
     if headers is not None and not isinstance(headers, list):
         headers = ', '.join(x.upper() for x in headers)
-    if not isinstance(origin, list):
-        origin = ', '.join(origin)
     if isinstance(max_age, timedelta):
         max_age = max_age.total_seconds()
 
@@ -41,7 +39,8 @@ def crossdomain(origin=None, methods=None, headers=None,
 
             h = resp.headers
 
-            h['Access-Control-Allow-Origin'] = origin
+            h['Access-Control-Allow-Origin'] = "http://127.0.0.1:5000"
+            h['Access-Control-Allow-Credentials'] = 'true'
             h['Access-Control-Allow-Methods'] = get_methods()
             h['Access-Control-Max-Age'] = str(max_age)
             if headers is not None:
@@ -59,7 +58,8 @@ def crossdomain(origin=None, methods=None, headers=None,
 def unmatchedAPIRoute(path):
     abort(404)
 
-@app.route('/api/ingredients/', methods=['GET', 'POST'])
+@app.route('/api/ingredients/', methods=['GET', 'POST', 'OPTIONS'])
+@crossdomain(origin='*')
 def ingredientsAPI():
     if request.method == 'GET':
         searchQuery = request.args.get('search')
@@ -70,14 +70,16 @@ def ingredientsAPI():
         arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
         return jsonify({"code": 200, "data": arrayToSerialize}), 200
 
-@app.route('/api/ingredients/id/<id>', methods=['GET'])
+@app.route('/api/ingredients/id/<id>', methods=['GET', 'OPTIONS'])
+@crossdomain(origin='*')
 def particularIngredientAPI(id):
     ingredient = ingredientDAO.getByID(id)
     if not ingredient:
         return make_response('', 204)
     return jsonify({"code": 200, "data": {'name': ingredient[0][1], 'id': ingredient[0][0], 'type': ingredient[0][2]}}), 200
 
-@app.route('/api/recipes/id/<id>', methods=['GET'])
+@app.route('/api/recipes/id/<id>', methods=['GET', 'OPTIONS'])
+@crossdomain(origin='*')
 def recipes(id):
     recipe = recipeDAO.getByID(id)
     if not recipe:
@@ -88,9 +90,9 @@ def recipes(id):
     return jsonify({"code": 200, "data": {'id': recipe[0], 'name': recipe[1], 'rating': recipe[2], 'description': recipe[3], 'prepTime': recipe[4], 'totalTime': recipe[5], "comments": commentArray}}), 200
 
 @app.route('/api/auth/register', methods=['POST', 'OPTIONS'])
-@crossdomain(origin='*')
+@crossdomain()
 def register():
-    loginData = request.json
+    loginData = request.get_json(force=True)
     if not (loginData["email"] and loginData["firstName"] and loginData["lastName"] and loginData["password"]):
         return jsonify({"code": 400, "message": 'Invalid or missing parameters'}), 400
 
@@ -102,11 +104,14 @@ def register():
     newToken = auth.create_token()
     tokenDAO.create(newToken, email)
 
-    return jsonify({"code": 200, "userToken": newToken}), 200
+    response = jsonify({"code": 200, "userToken": newToken})
+    response.headers.add('Access-Control-Allow-Origin', 'localhost:5000')
+    return response
 
-@app.route('/api/auth/login', methods=['POST'])
+@app.route('/api/auth/login', methods=['POST', 'OPTIONS'])
+@crossdomain(origin='*')
 def login():
-    loginData = request.json
+    loginData = request.get_json(force=True)
     if not (loginData["email"] and loginData["password"]):
         return jsonify({"code": 400, "message": 'Invalid or missing parameters'}), 400
 
@@ -119,9 +124,10 @@ def login():
 
     return jsonify({"code": 200, "userToken": newToken}), 200
 
-@app.route('/api/auth/logout', methods=['POST'])
+@app.route('/api/auth/logout', methods=['POST', 'OPTIONS'])
+@crossdomain(origin='*')
 def logout():
-    data = request.json
+    data = request.get_json(force=True)
     if not data["userToken"]:
         return jsonify({"code": 400, "message": 'Invalid or missing parameters'}), 400
     
@@ -129,9 +135,10 @@ def logout():
 
     return jsonify({"code": 200, "message": "User successfully logged out"}), 200
 
-@app.route('/api/auth/verifytoken', methods=['POST'])
+@app.route('/api/auth/verifytoken', methods=['POST', 'OPTIONS'])
+@crossdomain(origin='*')
 def verifyToken():
-    data = request.json
+    data = request.get_json(force=True)
     if not data["userToken"]:
         return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
 
@@ -140,7 +147,8 @@ def verifyToken():
     
     return jsonify({"code": 200, "tokenIsValid": True}), 200
 
-@app.route('/api/user/<token>', methods=['GET', 'POST'])
+@app.route('/api/user/<token>', methods=['GET', 'POST', 'OPTIONS'])
+@crossdomain(origin='*')
 def user(token):
     if request.method == 'GET':
         userEmail = tokenDAO.getEmail(token)
@@ -174,14 +182,15 @@ def user(token):
         ]
         return jsonify({"code": 200, "data": {"email": userInfo[0][0], "firstName": userInfo[0][1], "lastName": userInfo[0][2], "votes": userVoteArray, "comments": userCommentArray}}), 200
 
-@app.route('/api/user/<token>/ingredients', methods=['GET', 'POST', 'DELETE'])
+@app.route('/api/user/<token>/ingredients', methods=['GET', 'POST', 'DELETE', 'OPTIONS'])
+@crossdomain(origin='*')
 def userIngredients(token):
     userEmail = tokenDAO.getEmail(token)
     if not userEmail:
         return jsonify({"code": 404, "message": "Can't find user"}), 404
 
     if request.method == 'POST':
-        data = request.json
+        data = request.get_json(force=True)
         if not data["ingredientIds"]:
             return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
         ingredientIds = [int(id) for id in data["ingredientIds"]]
@@ -190,7 +199,7 @@ def userIngredients(token):
         except pymysql.err.IntegrityError:
             pass
     if request.method == 'DELETE':
-        data = request.json
+        data = request.get_json(force=True)
         if not data["ingredientIds"]:
             return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
         ingredientIds = [int(id) for id in data["ingredientIds"]]
@@ -207,7 +216,8 @@ def userIngredients(token):
         arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
     return jsonify({"code": 200, "data": arrayToSerialize}), 200
         
-@app.route('/api/user/<token>/recipes', methods=['GET'])
+@app.route('/api/user/<token>/recipes', methods=['GET', 'OPTIONS'])
+@crossdomain(origin='*')
 def userRecipes(token):
     userEmail = tokenDAO.getEmail(token)
     if not userEmail:
@@ -221,7 +231,8 @@ def userRecipes(token):
         arrayToSerialize = [{'id': recipe[0], 'name': recipe[1], 'rating': recipe[2], 'description': recipe[3], 'prepTime': recipe[4], 'totalTime': recipe[5]} for recipe in userRecipes]
     return jsonify({"code": 200, "data": arrayToSerialize}), 200
 
-@app.route('/api/user/<token>/votes/id/<id>', methods=['GET', 'POST'])
+@app.route('/api/user/<token>/votes/id/<id>', methods=['GET', 'POST', 'OPTIONS'])
+@crossdomain(origin='*')
 def voteForRecipe(token, id):
     userEmail = tokenDAO.getEmail(token)
     if not userEmail:
@@ -234,7 +245,7 @@ def voteForRecipe(token, id):
         else:
             returnRating = userVote[0]
     elif request.method == 'POST':
-        data = request.json
+        data = request.get_json(force=True)
         if not data["userVote"]:
             return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
         voteDAO.update(id, userEmail, data["userVote"])
@@ -242,7 +253,8 @@ def voteForRecipe(token, id):
 
     return jsonify({"code": 200, "data": {"rating": returnRating}}), 200
 
-@app.route('/api/user/<token>/comments/id/<id>', methods=['GET', 'POST'])
+@app.route('/api/user/<token>/comments/id/<id>', methods=['GET', 'POST', 'OPTIONS'])
+@crossdomain(origin='*')
 def commentForRecipe(token, id):
     userEmail = tokenDAO.getEmail(token)
     if not userEmail:
@@ -254,7 +266,7 @@ def commentForRecipe(token, id):
     recipe = recipe[0]
     
     if request.method == 'POST':
-        data = request.json
+        data = request.get_json(force=True)
         if not data["userComment"]:
             return jsonify({"code": 400, "message": 'Invalid or missing request parameters'}), 400
         commentDAO.create(userEmail, id, data["userComment"])

@@ -25,8 +25,7 @@ const requireNoAuthentication = (Component) => withRouter(class extends React.Co
                     method: 'post',
                     credentials: 'include',
                     headers: {
-                        'Accept': 'application/json', 
-                        'Content-Type': 'application/json'
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({ userToken: token }),
                 })

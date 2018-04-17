@@ -56,8 +56,7 @@ export default class RecipeDetails extends React.Component {
             method: 'post',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json'
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 userVote: nextValue
@@ -82,8 +81,7 @@ export default class RecipeDetails extends React.Component {
             method: 'post',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json'
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 userComment: this.state.userComment

@@ -23,8 +23,7 @@ class Sidebar extends React.Component {
             method: 'post',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json'
+                'Accept': 'application/json'
             },
             body: JSON.stringify({ 
                 userToken: token
