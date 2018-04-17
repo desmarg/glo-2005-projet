@@ -1,0 +1,199 @@
+1,oignon,1
+2,carotte,1
+3,branche de céléri,1
+4,gousse d'ail,1
+5,huile d'olive,1
+6,lentilles de Puy sèches,1
+7,bouillon de légumes,1
+8,eau,1
+9,pâte de tomates,1
+10,moutarde de Dijon,1
+11,branche de thym,1
+12,feuille de laurier,1
+13,champignon blanc,1
+14,choux de Bruxelles,1
+15,tomate,1
+16,huile végétale,1
+17,gingembre frais,1
+18,thym frais,1
+19,flocons de piment,1
+20,poudre de cari,1
+21,pois chiches,1
+22,pommes de terre,1
+23,petits pois surgelés,1
+24,oignon vert,1
+25,pois jaunes cassés,1
+26,curcuma moulu,1
+27,cumin moulu,1
+28,farine tout usage non blanchie,1
+29,farine de blé entier,1
+30,poudre à pâte,1
+31,sel,1
+32,beurre,1
+33,fèves de soya jaunes sèches,1
+34,sel d'Epsom,1
+35,vinaigre de cidre,1
+36,jus de citron,1
+37,graines de pavot,1
+38,riz brun cuit,1
+39,lentilles de Puy,1
+40,avocat,1
+41,raisins sans pépins,1
+42,feuilles de coriandre,1
+43,lait de coco léger,1
+44,beurre d'arachide,1
+45,sauce soya,1
+46,gingembre,1
+47,vinaigre de riz,1
+48,sirop d'érable,1
+49,sambal oelek,1
+50,tempeh,1
+51,fèves germées,1
+52,arachides concassées,1
+53,quartiers de lime,1
+54,mayonnaise,1
+55,yogourt grec nature,1
+56,citron,1
+57,ciboulette fraîche,1
+58,oignon rouge,1
+59,sucre,1
+60,aubergine,1
+61,courgette,1
+62,fromage à griller de type halloumi,1
+63,pains à burger,1
+64,feuilles de laitue Boston,1
+65,tofu ferme,1
+66,tofu extra ferme épongé,1
+67,chapelure,1
+68,œuf,1
+69,huile de sésame grillée,1
+70,chou,1
+71,concombre libanais,1
+72,quinoa,1
+73,fèves de soya (edamanes) écossées,1
+74,coriandre fraîche,1
+75,coulis de tomate,1
+76,sauce tomate,1
+77,fécule de maïs,1
+78,cinq-épices moulu,1
+79,pâte de miso,1
+80,pois mange-tout,1
+81,vermicelle de riz cuits,1
+82,graines de citrouille,1
+83,branche de basilic frais,1
+84,crème 35%,1
+85,crème 15%,1
+86,bébés épinards,1
+87,fromage ricotta,1
+88,fromage parmigiano reggiano,1
+89,muscade moulue,1
+90,poivre de Cayenne,1
+91,feuilles de pâtes à lasagne fraîches,1
+92,poivre,1
+93,patate douce,1
+94,quatre-épices,1
+95,piment de Cayenne,1
+96,cannelle moulue,1
+97,petit poireau,1
+98,petits bouquets de brocoli blanchi,1
+99,feuilles de choux de Bruxelles blanchies,1
+100,demi-pacanes rôties,1
+101,menthe fraîche,1
+102,assaisonnement au chili,1
+103,paprika,1
+104,paprika fumé,1
+105,pains pitas,1
+106,laitue Boston,1
+107,riz sauvage,1
+108,jus de pomme,1
+109,mélasse,1
+110,bulbe de fenouil,1
+111,pomme,1
+112,raisins de Corinthe,1
+113,tomates cerises,1
+114,petit chou-fleur,1
+115,sumac,1
+116,origan séché,1
+117,hummus de commerce,1
+118,graines de sésame,1
+119,petites carottes,1
+120,chou romanesco,1
+121,radis,1
+122,vinaigre de vin blanc,1
+123,miel,1
+124,graines de coriandre concassées,1
+125,betteraves cuites,1
+126,tahini,1
+127,persil plat,1
+128,petit oignon,1
+129,grosses asperges,1
+130,fromage cheddar,1
+131,blé mou,1
+132,chou rouge,1
+133,petites betteraves jaunes,1
+134,petit piment jalapeño,1
+135,haricots blancs,1
+136,coriandre moulu,1
+137,asperges,1
+138,fromage halloumi,1
+139,feuilles de basilic frais,1
+140,lentilles vertes sèches,1
+141,orge perlé,1
+142,persil frais,1
+143,haricots rouges,1
+144,tomates italiennes,1
+145,échalotte française,1
+146,huile de canola,1
+147,vinaigre de xérès,1
+148,polenta du commerce,1
+149,champignon portabella,1
+150,poivrons multicolores,1
+151,pâtes en forme de petites coquilles,1
+152,épinard frais,1
+153,zeste de citron,1
+154,amandes rôties,1
+155,branche de céleri,1
+156,lentilles brunes sèches,1
+157,fromage mozzarella,1
+158,pain rassis,1
+159,feuilles de fenouil,1
+160,farine,1
+161,lait,1
+162,fromage fontina,1
+163,fromage gruyère,1
+164,bouillon de poulet,1
+165,feuilles de chou kale,1
+166,pâte à won-ton,1
+167,tofu soyeux ferme,1
+168,sucre à glacer,1
+169,feuilles de riz,1
+170,feuilles de menthe,1
+171,chou-rave mariné,1
+172,sauce aux arachides,1
+173,poivron rouge,1
+174,sauce chili,1
+175,poivron orange,1
+176,jus de lime,1
+177,fromage cheddar fort,1
+178,lentilles rouges,1
+179,courge Butternut,1
+180,petites pâtes courtes au choix,1
+181,fromage grana padano,1
+182,basilic frais,1
+183,jaune d'œuf,1
+184,petites pommes de terre rattes ou grelots,1
+185,haricots verts,1
+186,œuf dur,1
+187,Choix de légumes crus,1
+188,pâtes à lasagne sans précuisson,1
+189,pacanes grillées et concassées,1
+190,feuilles de persil plat,1
+191,farine de sarrasin,1
+192,pesto de persil,1
+193,courge poivrée,1
+194,branche de romarin,1
+195,bicarbonate de soude,1
+196,vin rouge,1
+197,moutarde préparée,1
+198,harissa,1
+199,noisettes grillées,1

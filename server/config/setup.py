@@ -1,6 +1,7 @@
 import configparser
 import pymysql
 import pymysql.cursors
+import os
 
 # Read MySQL config info from config/database.ini
 dbConfig = configparser.ConfigParser()
@@ -23,7 +24,22 @@ def executeScriptsFromFile(filename):
 
     # Execute every command from the input file
     for command in sqlCommands:
-        print(command)
         cursor.execute(command)
 
-executeScriptsFromFile("init.sql")
+try:
+    executeScriptsFromFile("init.sql")
+    ingredientRequest = "LOAD DATA INFILE %s INTO TABLE ingredients COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
+    recipeIngredientsRequest = "LOAD DATA INFILE %s INTO TABLE recipeingredients COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
+    recipeRequest = "LOAD DATA INFILE %s INTO TABLE recipes COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
+    measurementunitsRequest = "LOAD DATA INFILE %s INTO TABLE measurementunits COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
+
+    ingredientFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Ingredients.csv")
+    recipeIngredientsFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "RecipeIngredients.csv")
+    recipesFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Recipes.csv")
+    measurementUnitsFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "MeasurementUnits.csv")
+    cursor.execute(ingredientRequest, (ingredientFile))
+    cursor.execute(recipeIngredientsRequest, (recipeIngredientsFile))
+    cursor.execute(recipeRequest, (recipesFile))
+    cursor.execute(measurementunitsRequest, (measurementUnitsFile))
+except (pymysql.err.InternalError):
+    pass
