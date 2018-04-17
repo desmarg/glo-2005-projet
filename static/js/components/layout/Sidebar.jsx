@@ -31,7 +31,7 @@ class Sidebar extends React.Component {
             }),
         })
         .then(res => {
-            localStorage.deleteItem(Config.localTokenKey)
+            localStorage.removeItem(Config.localTokenKey)
             this.props.history.push('/login')
         }).catch(error => {
 
@@ -83,7 +83,7 @@ class Sidebar extends React.Component {
                                         <Link className="nav-link" to="/profile">Profil</Link>
                                     </li>
 
-                                    <li className="nav-item">
+                                    <li className="nav-item" style={{cursor: "pointer"}}>
                                             <span className="nav-link" onClick={() => this.logout()}><b><i className="fas fa-sign-out-alt"></i> Se déconnecter</b></span>
                                     </li>
                                 </ul>
