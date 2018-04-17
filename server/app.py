@@ -1,11 +1,56 @@
-from flask import Flask, render_template, request, jsonify, abort, make_response, url_for
+from flask import Flask, render_template, request, jsonify, abort, make_response, url_for, current_app
 from database_interface import userDAO, commentDAO, recipeDAO, tokenDAO, voteDAO, ingredientDAO, userIngredientsDAO
+from datetime import timedelta
+from functools import update_wrapper
 import os
 import auth
 import json
 import pymysql
 
 app = Flask(__name__, static_folder="../static/dist", template_folder="../static")
+
+
+
+def crossdomain(origin=None, methods=None, headers=None,
+                max_age=21600, attach_to_all=True,
+                automatic_options=True):
+    if methods is not None:
+        methods = ', '.join(sorted(x.upper() for x in methods))
+    if headers is not None and not isinstance(headers, list):
+        headers = ', '.join(x.upper() for x in headers)
+    if not isinstance(origin, list):
+        origin = ', '.join(origin)
+    if isinstance(max_age, timedelta):
+        max_age = max_age.total_seconds()
+
+    def get_methods():
+        if methods is not None:
+            return methods
+
+        options_resp = current_app.make_default_options_response()
+        return options_resp.headers['allow']
+
+    def decorator(f):
+        def wrapped_function(*args, **kwargs):
+            if automatic_options and request.method == 'OPTIONS':
+                resp = current_app.make_default_options_response()
+            else:
+                resp = make_response(f(*args, **kwargs))
+            if not attach_to_all and request.method != 'OPTIONS':
+                return resp
+
+            h = resp.headers
+
+            h['Access-Control-Allow-Origin'] = origin
+            h['Access-Control-Allow-Methods'] = get_methods()
+            h['Access-Control-Max-Age'] = str(max_age)
+            if headers is not None:
+                h['Access-Control-Allow-Headers'] = headers
+            return resp
+
+        f.provide_automatic_options = False
+        return update_wrapper(wrapped_function, f)
+    return decorator
 
 #API routes
 
@@ -40,9 +85,10 @@ def recipes(id):
     recipe = recipe[0]
     comments = commentDAO.getFromRecipe(recipe[0])
     commentArray = [{"email": comment[0], "content": comment[1]} for comment in comments]
-    return jsonify({"code": 200, "data": {'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6], "comments": commentArray}}), 200
+    return jsonify({"code": 200, "data": {'id': recipe[0], 'name': recipe[1], 'rating': recipe[2], 'description': recipe[3], 'prepTime': recipe[4], 'totalTime': recipe[5], "comments": commentArray}}), 200
 
-@app.route('/api/auth/register', methods=['POST'])
+@app.route('/api/auth/register', methods=['POST', 'OPTIONS'])
+@crossdomain(origin='*')
 def register():
     loginData = request.json
     if not (loginData["email"] and loginData["firstName"] and loginData["lastName"] and loginData["password"]):
@@ -172,7 +218,7 @@ def userRecipes(token):
         arrayToSerialize = []
     else:
         userRecipes = recipeDAO.searchByIngredients(userIngredientIds)
-        arrayToSerialize = [{'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6]} for recipe in userRecipes]
+        arrayToSerialize = [{'id': recipe[0], 'name': recipe[1], 'rating': recipe[2], 'description': recipe[3], 'prepTime': recipe[4], 'totalTime': recipe[5]} for recipe in userRecipes]
     return jsonify({"code": 200, "data": arrayToSerialize}), 200
 
 @app.route('/api/user/<token>/votes/id/<id>', methods=['GET', 'POST'])
@@ -215,7 +261,7 @@ def commentForRecipe(token, id):
 
     comments = commentDAO.getFromRecipe(recipe[0])
     commentArray = [{"email": comment[0], "content": comment[1]} for comment in comments]
-    return jsonify({"code": 200, "data": {'id': recipe[0], 'name': recipe[1], 'rating': recipe[3], 'description': recipe[4], 'prepTime': recipe[5], 'totalTime': recipe[6], "comments": commentArray}}), 200
+    return jsonify({"code": 200, "data": {'id': recipe[0], 'name': recipe[1], 'rating': recipe[2], 'description': recipe[3], 'prepTime': recipe[4], 'totalTime': recipe[5], "comments": commentArray}}), 200
 
 # Application routes
 

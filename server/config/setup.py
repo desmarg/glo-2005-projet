@@ -28,22 +28,23 @@ def executeScriptsFromFile(filename):
 
 try:
     executeScriptsFromFile("init.sql")
-    ingredienttypesRequest = "LOAD DATA INFILE %s INTO TABLE ingredienttypes COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
-    ingredientRequest = "LOAD DATA INFILE %s INTO TABLE ingredients COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
-    recipeIngredientsRequest = "LOAD DATA INFILE %s INTO TABLE recipeingredients COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
-    recipeRequest = "LOAD DATA INFILE %s INTO TABLE recipes COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
-    measurementunitsRequest = "LOAD DATA INFILE %s INTO TABLE measurementunits COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
-
-    ingredienttypesFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "IngredientTypes.csv")
-    ingredientFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Ingredients.csv")
-    recipesFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Recipes.csv")
-    measurementUnitsFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "MeasurementUnits.csv")
-    recipeIngredientsFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "RecipeIngredients.csv")
-
-    cursor.execute(ingredienttypesRequest, (ingredienttypesFile))
-    cursor.execute(ingredientRequest, (ingredientFile))
-    cursor.execute(recipeRequest, (recipesFile))
-    cursor.execute(measurementunitsRequest, (measurementUnitsFile))
-    cursor.execute(recipeIngredientsRequest, (recipeIngredientsFile))
 except (pymysql.err.InternalError):
     pass
+    
+ingredienttypesRequest = "LOAD DATA INFILE %s INTO TABLE ingredienttypes COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
+ingredientRequest = "LOAD DATA INFILE %s INTO TABLE ingredients COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
+recipeIngredientsRequest = "LOAD DATA INFILE %s INTO TABLE recipeingredients COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
+recipeRequest = "LOAD DATA INFILE %s INTO TABLE recipes COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
+measurementunitsRequest = "LOAD DATA INFILE %s INTO TABLE measurementunits COLUMNS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"';"
+
+ingredienttypesFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "IngredientTypes.csv")
+ingredientFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Ingredients.csv")
+recipesFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Recipes.csv")
+measurementUnitsFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "MeasurementUnits.csv")
+recipeIngredientsFile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "RecipeIngredients.csv")
+
+cursor.execute(ingredienttypesRequest, (ingredienttypesFile))
+cursor.execute(ingredientRequest, (ingredientFile))
+cursor.execute(recipeRequest, (recipesFile))
+cursor.execute(measurementunitsRequest, (measurementUnitsFile))
+cursor.execute(recipeIngredientsRequest, (recipeIngredientsFile))
