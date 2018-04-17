@@ -27,6 +27,7 @@ git clone https://github.com/desmarg/glo-2005-projet.git
 
 1. Créez une base de données locale en lui donnant le nom que vous voulez. Faites attention à bien choisir un interclassement UTF-8.
 Modifiez le fichier `server/config/database.ini` en remplaçant les 4 valeurs sous la section MYSQL par les informations de votre base de données locale.
+Note: host est généralement localhost.
 
 2. Roulez le script `setup.py` situé dans le dossier `server/config`
 
