@@ -26,12 +26,19 @@ git clone https://github.com/desmarg/glo-2005-projet.git
 ## Configuration de la base de données
 
 1. Créez une base de données locale en lui donnant le nom que vous voulez. Faites attention à bien choisir un interclassement UTF-8.
+Exemple de commande:
+```
+CREATE DATABASE glo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
 Modifiez le fichier `server/config/database.ini` en remplaçant les 4 valeurs sous la section MYSQL par les informations de votre base de données locale.
-Note: host est généralement localhost.
+Note: host est généralement localhost ou 127.0.0.1.
 
-2. Roulez le script `setup.py` situé dans le dossier `server/config`
+2. Roulez le script `setup.py` situé dans le dossier `server/config`. La plupart des serveurs mysql sont configurés avec l'option secure-file-priv qui empêche l'import de fichiers csv comme ceci. La solution est de modifier votre fichier `my.ini` et d'assigner une string vide à la variable `secure_file_priv`:
+```
+secure_file_priv = ""
+```
 
-**Attention, le script importe 4 fichiers csv de données. Si des erreurs surviennent lors de cet import, vous pouvez faire l'import manuellement avec la méthode de votre choix en utilisant les 4 fichiers .csv dans `server/config`. Chaque fichier est nommé selon la table à laquelle il correspond.**
+**Attention, le script importe 4 fichiers csv de données. Si des erreurs surviennent lors de cet import, vous pouvez faire l'import manuellement avec la méthode de votre choix en utilisant les 4 fichiers .csv dans `server/config`. Chaque fichier est nommé selon la table à laquelle il correspond. L'erreur `pymysql.err.InternalError: (1290, 'The MySQL server is running with the --secure-file-priv option so it cannot execute this statement')` fait référence au problème expliqué ci-haut.**
 
 # Rouler le projet
 
