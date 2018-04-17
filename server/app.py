@@ -69,7 +69,7 @@ def ingredientsAPI():
             matchingIngredients = ingredientDAO.searchByName(searchQuery)
         arrayToSerialize = [{'name': ingredient[1], 'id': ingredient[0], 'type': ingredient[2]} for ingredient in matchingIngredients]
         response = jsonify({"code": 200, "data": arrayToSerialize})
-        response.headers.add('Access-Control-Allow-Origin', 'localhost:5000')
+        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:5000')
         return response
 
 @app.route('/api/ingredients/id/<id>', methods=['GET', 'OPTIONS'])

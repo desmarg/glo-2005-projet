@@ -34,7 +34,13 @@ export default class Ingredients extends React.Component {
     }
 
     onSearchChange(e) {
-        fetch(Config.apiURL + '/ingredients?search=' + e.target.value)
+        fetch(Config.apiURL + '/ingredients/?search=' + e.target.value, { 
+            method: 'get',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
         .then(response => {
                 if (response.status !== 200) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
